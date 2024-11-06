@@ -118,6 +118,7 @@ export default function Index() {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         style={[styles.listContainer]}
+        testID="todo-list"
         ListFooterComponent={
           <Text
             style={styles.addTodo}

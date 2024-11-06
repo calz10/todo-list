@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "display": "flex",
+        "flexDirection": "column",
+        "paddingHorizontal": 16,
+        "rowGap": 16,
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": 4,
+      }
+    }
+  >
+    <Text>
+      Title
+    </Text>
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="Add todo"
+      style={
+        [
+          undefined,
+          {
+            "width": "100%",
+          },
+        ]
+      }
+      testID="undefinedtitle"
+      value="Test Tile"
+    />
+  </View>
+  <View
+    style={
+      {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": 4,
+      }
+    }
+  >
+    <Text>
+      Description
+    </Text>
+    <TextInput
+      multiline={true}
+      numberOfLines={4}
+      onChangeText={[Function]}
+      placeholder="Add description"
+      style={
+        [
+          {
+            "backgroundColor": "#e3e3e4",
+            "borderRadius": 8,
+            "height": 150,
+            "padding": 8,
+          },
+          {
+            "width": "100%",
+          },
+        ]
+      }
+      testID="undefineddescription"
+      value="test"
+    />
+  </View>
+  <RNDateTimePicker
+    date={NaN}
+    displayIOS="default"
+    enabled={true}
+    mode="date"
+    onChange={[Function]}
+    onPickerDismiss={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    testID="undefineddate"
+  />
+  <View>
+    <RNCPicker
+      items={
+        [
+          {
+            "label": "Pending",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": "1",
+          },
+          {
+            "label": "In Progress",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": "2",
+          },
+          {
+            "label": "Completed",
+            "testID": undefined,
+            "textColor": undefined,
+            "value": "3",
+          },
+        ]
+      }
+      numberOfLines={1}
+      onChange={[Function]}
+      selectedIndex={0}
+      style={
+        [
+          {
+            "height": 216,
+          },
+          undefined,
+        ]
+      }
+      testID="undefineddate"
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#277dce",
+        "borderRadius": 8,
+        "height": 44,
+        "justifyContent": "center",
+        "opacity": 1,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#ffffff",
+          "fontSize": 16,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      Update Todo
+    </Text>
+  </View>
+</View>
+`;

@@ -72,6 +72,7 @@ export default function Modal() {
           dueDate={todo.dueDate ?? new Date().toISOString()}
           onChangeText={(field, val) => setTodo({ ...todo, [field]: val })}
           onSave={onSave}
+          testID={isAddingNote ? 'add-todo-form' : 'edit-todo-form'}
           status={todo.status}
           isAddingTodo={isAddingNote}
         />

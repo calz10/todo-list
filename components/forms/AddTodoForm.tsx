@@ -12,6 +12,7 @@ type ItemPayload = {
   dueDate: string
   isAddingTodo?: boolean
   status: TodoActionTypes
+  testID? :string
 }
 
 type AddTodoFormProps = ItemPayload & {
@@ -25,6 +26,7 @@ export const AddTodoForm = React.memo(({
   dueDate,
   isAddingTodo,
   status,
+  testID,
   onChangeText,
   onSave
 }: AddTodoFormProps) => {
@@ -34,6 +36,7 @@ export const AddTodoForm = React.memo(({
         placeholder='Add todo'
         label='Title'
         value={title}
+        testID={testID + 'title'}
         onChangeText={(val) => onChangeText('title', val)}
       />
       <TextInput
@@ -43,12 +46,14 @@ export const AddTodoForm = React.memo(({
         numberOfLines={4}
         style={styles.textArea}
         value={description}
+        testID={testID + 'description'}
         onChangeText={(val) => onChangeText('description', val)}
       />
       <DateTimePicker
         value={dueDate ? new Date(dueDate) : new Date()}
         mode='date'
         display='default'
+        testID={testID + 'date'}
         onChange={(evt) => {
           onChangeText('dueDate', new Date(evt.nativeEvent.timestamp).toISOString())
         }}
@@ -56,6 +61,7 @@ export const AddTodoForm = React.memo(({
      {!isAddingTodo &&  <StatusPicker 
         status={status}
         onChange={(val) => onChangeText('status', val)}
+        testID={testID + 'date'}
         options={[
           {
             label: 'Pending',
