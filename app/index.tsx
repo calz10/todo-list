@@ -10,7 +10,7 @@ import { StatusPicker } from '@/components/picker/StatusPicker';
 export default function Index() {
   const [term, setTerm] = useState('')
   const [status, setStatus] = useState<TodoActionTypes | 'all'>('all')
-  const todos = useSelector(slices.todos.selectors.selectAllTodos)
+  const todos = useSelector((state) => slices.todos.selectors.selectAllTodos(state, status))
 
   const [showFilterSelections, setShowSelections] = useState(false)
 
@@ -57,24 +57,14 @@ export default function Index() {
   }, [dispatch])
 
   const filteredByTerm = useMemo(() => {
-    const returnTodosWithStatus = (currTodos: TodoItem[]) => {
-      if (status !== 'all') {
-        return currTodos.filter(todo => +todo.status === +status)
-      }
-      return currTodos
+
+    if (term) {
+      return todos.filter(todo =>
+        todo.title.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+      )
     }
 
-    const filterByTerm = (currTodos: TodoItem[]) => {
-      if (term) {
-        return currTodos.filter(todo => 
-          todo.title.toLocaleLowerCase().includes(term.toLocaleLowerCase())
-        )
-      }
-      return currTodos
-    }
-
-    const todosWithStatus = returnTodosWithStatus(todos)
-    return filterByTerm(todosWithStatus)
+    return todos
   }, [todos, term, status])
 
   return (
@@ -84,7 +74,14 @@ export default function Index() {
       <View style={styles.searchContainer}>
         <View style={styles.labelContainer}>
           <Text style={styles.todoLabel}>Find Todo</Text>
-          <Text onPress={() => setShowSelections(!showFilterSelections)}>{showFilterSelections ? 'Close Filter' : 'Open Filter'}</Text>
+          <Text onPress={() => {
+            setShowSelections(!showFilterSelections)
+
+            if (showFilterSelections) {
+              setStatus('all')
+            }
+          }}>{showFilterSelections ? 'Close Filter' : 'Open Filter'}</Text>
+
         </View>
         <TextInput
           placeholder='Search todos'
