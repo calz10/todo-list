@@ -11,7 +11,7 @@ export type TodoItem = {
   status: TodoActionTypes
   title: string
   description: string
-  dueDate?: string
+  dueDate: string
 }
 
 export interface TodoState {

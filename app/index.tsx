@@ -3,12 +3,17 @@ import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "r
 import { useDispatch, useSelector } from 'react-redux';
 import { slices } from '@/redux';
 import { useCallback, useMemo, useState } from 'react';
-import { TodoItem } from '@/redux/todos';
+import { TodoActionTypes, TodoItem } from '@/redux/todos';
 import { format } from 'date-fns'
+import { StatusPicker } from '@/components/picker/StatusPicker';
 
 export default function Index() {
   const [term, setTerm] = useState('')
+  const [status, setStatus] = useState<TodoActionTypes | 'all'>('all')
   const todos = useSelector(slices.todos.selectors.selectAllTodos)
+
+  const [showFilterSelections, setShowSelections] = useState(false)
+
   const dispatch = useDispatch()
 
   const onRemove = useCallback((id: string) => {
@@ -25,12 +30,13 @@ export default function Index() {
     })
   }, [router])
 
-  const renderItem = useCallback(({ item }: { item: TodoItem }) => {
+  const renderItem = useCallback(({ item }: { item: TodoItem & { isDue: boolean } }) => {
     return (
-      <TouchableOpacity style={styles.listItem} onPress={() => onSelect(item.id)}>
+      <TouchableOpacity style={[styles.listItem, item.isDue && styles.dueStyle]} onPress={() => onSelect(item.id)}>
         <View style={styles.textContainer}>
           <Text style={styles.titleStyle}>{item.title}</Text>
           <Text style={styles.descriptionStyle}>{item.description}</Text>
+          <Text style={styles.descriptionStyle}>{item.status}</Text>
           <Text style={styles.descriptionStyle}>{format(item?.dueDate ? new Date(item?.dueDate) : new Date(), 'PP')}</Text>
         </View>
         <View>
@@ -50,27 +56,68 @@ export default function Index() {
     dispatch(slices.todos.actions.clearSelectedTodo())
   }, [dispatch])
 
-  const newTodos = useMemo(() => {
-    if (term) {
-      return todos.filter(todo => todo.title.toLocaleLowerCase().includes(term.toLocaleLowerCase()))
+  const filteredByTerm = useMemo(() => {
+    const returnTodosWithStatus = (currTodos: TodoItem[]) => {
+      if (status !== 'all') {
+        return currTodos.filter(todo => +todo.status === +status)
+      }
+      return currTodos
     }
 
-    return todos
-  }, [todos, term])
+    const filterByTerm = (currTodos: TodoItem[]) => {
+      if (term) {
+        return currTodos.filter(todo => 
+          todo.title.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+        )
+      }
+      return currTodos
+    }
+
+    const todosWithStatus = returnTodosWithStatus(todos)
+    return filterByTerm(todosWithStatus)
+  }, [todos, term, status])
 
   return (
     <View
       style={styles.container}
     >
       <View style={styles.searchContainer}>
-        <Text style={styles.todoLabel}>Find Todo</Text>
+        <View style={styles.labelContainer}>
+          <Text style={styles.todoLabel}>Find Todo</Text>
+          <Text onPress={() => setShowSelections(!showFilterSelections)}>{showFilterSelections ? 'Close Filter' : 'Open Filter'}</Text>
+        </View>
         <TextInput
           placeholder='Search todos'
           onChangeText={(text) => setTerm(text)}
         />
+        {showFilterSelections ? <View style={styles.sections}>
+          <StatusPicker
+            status={status}
+            onChange={setStatus}
+            options={[
+              {
+                label: 'All',
+                value: 'all' as any
+              },
+              {
+                label: 'Pending',
+                value: TodoActionTypes.PENDING
+              },
+              {
+                label: 'In Progress',
+                value: TodoActionTypes.INPROGRESS
+              },
+              {
+                label: 'Completed',
+                value: TodoActionTypes.COMPLETED
+              }
+            ]}
+          />
+        </View> : undefined
+        }
       </View>
       <FlatList
-        data={newTodos}
+        data={filteredByTerm || []}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         style={[styles.listContainer]}
@@ -106,6 +153,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 8,
   },
+  sections: { width: '100%', height: 150, paddingBottom: 24 },
   addTodo: {
     width: '100%',
     justifyContent: 'center',
@@ -113,6 +161,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     display: 'flex',
     color: 'blue',
+    paddingTop: 18,
+  },
+  labelContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  dueStyle: {
+    backgroundColor: 'red'
   },
   titleStyle: {
     fontSize: 18,

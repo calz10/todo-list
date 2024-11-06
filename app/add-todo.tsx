@@ -47,7 +47,7 @@ export default function Modal() {
   const onSave = useCallback(() => {
     const newTodo = {
       ...todo,
-      status: TodoActionTypes.PENDING,
+      status: todo?.status || TodoActionTypes.PENDING,
       id: Date.now().toString()
     }
 
@@ -72,6 +72,8 @@ export default function Modal() {
           dueDate={todo.dueDate ?? new Date().toISOString()}
           onChangeText={(field, val) => setTodo({ ...todo, [field]: val })}
           onSave={onSave}
+          status={todo.status}
+          isAddingTodo={isAddingNote}
         />
       </View>
     </View>
