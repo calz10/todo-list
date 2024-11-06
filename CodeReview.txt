@@ -1,0 +1,16 @@
+1. State Management:
+
+I use redux-toolkit state management, as its commonly use in large and complex application. We can access state and store globally and by using slices
+we can optimize performance by creating selectors and its more organized.
+
+2. Performance Optimization:
+I have created selectors and tried to put logic inside of those selectors as well so we can reduce code in component and seperate logic as possible
+this selectors also will prevent unnecessary rerendering.
+
+3.
+
+4. Code Structure
+
+As of now its the initial setup of expo, it has folders for each like hooks, pure components, screen itself which more organized and easy to maintain.
+
+Also the structure will help new developers to understand how it works.
