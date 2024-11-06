@@ -7,4 +7,12 @@ it(`renders correctly`, () => {
   const tree = renderer.create(<Button onPress={() => {}} title='title' />).toJSON();
 
   expect(tree).toMatchSnapshot();
+  expect(tree).toMatchSnapshot();
+});
+
+test(`renders correctly`, () => {
+  const tree = renderer.create(<Button onPress={() => {}} title='title' />).toJSON();
+
+  expect(tree).toMatchSnapshot();
+  expect(tree).toMatchSnapshot();
 });
